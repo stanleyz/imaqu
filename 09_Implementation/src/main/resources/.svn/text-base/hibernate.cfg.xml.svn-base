@@ -1,0 +1,15 @@
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<mapping class="net.ityin.imaqu.model.User" />
+		<mapping class="net.ityin.imaqu.model.Role" />
+		<mapping class="net.ityin.imaqu.model.Question" />
+		<mapping class="net.ityin.imaqu.model.Answer" />
+		<mapping class="net.ityin.imaqu.model.Category" />
+		<mapping class="net.ityin.imaqu.model.Level" />
+		<mapping class="net.ityin.imaqu.model.SubLevel" />
+		<mapping class="net.ityin.imaqu.model.Reward" />
+	</session-factory>
+</hibernate-configuration>

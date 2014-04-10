@@ -1,0 +1,4 @@
+login.err.usernamenotfound=You haven't registered
+login.err.passwordincorrect=Password incorrect
+login.err.capthcaincorrect=Verification code error
+signup.page.confirmpasswd=Confirm Password

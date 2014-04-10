@@ -1,0 +1,45 @@
+<link type="text/css" rel="stylesheet" href="${base}/include/css/m/mcenter.css" />
+<script type="text/javascript">
+$(function() {
+	$('#m-results-section input.dataCheckbox').attr('checked',false);
+	$('.selectAllCheckbox').change(function(){
+		var checked=$(this).attr('checked');
+		$('#m-results-section input.dataCheckbox').attr('checked',checked);
+		$('input.selectAllCheckbox').attr('checked',checked);
+		if(checked) {
+			$('#m-results-section td').addClass("bg-orange");
+			$('.action-buttons').attr('disabled',false);
+		}else {
+			$('#m-results-section td').removeClass("bg-orange");
+			$('.action-buttons').attr('disabled',true);
+		}
+	});
+	$('#m-results-section input.dataCheckbox').change(function(){
+		var checked=$(this).attr('checked');
+		if(checked) {
+			$(this).parent().parent().children().addClass("bg-orange");
+			$('.action-buttons').attr('disabled',false);
+		}else {
+			$('input.selectAllCheckbox').attr('checked',false);
+			$(this).parent().parent().children().removeClass("bg-orange");
+		}
+	});
+	$('#delete-button').click(function(){
+		var off=$(this).offset();
+		$('#delete-entries').css('display','block');
+		$('#delete-entries').css('top',off.top-140);
+		$('#delete-entries').css('left',off.left+52);
+		toggleCoverLayer(true);
+	});
+	$('#deactive-button').click(function(){
+		var off=$(this).offset();
+		$('#deactive-entries').css('display','block');
+		$('#deactive-entries').css('top',off.top-180);
+		$('#deactive-entries').css('left',off.left+52);
+		toggleCoverLayer(true);
+	});
+	$('#block-days').focus(function(){
+		$('#block-days-radio').attr('checked','checked');
+	});
+});
+</script>

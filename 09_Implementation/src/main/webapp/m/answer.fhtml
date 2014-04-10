@@ -1,0 +1,205 @@
+<#include "../template/includeAll.fhtml" />
+<html>
+	<head>
+		<title>回答管理</title>
+		<script type="text/javascript">
+		$(function(){
+			$('#delete-entries-confirm').click(function(){
+				var ids="";
+				$.each($('#m-results-section input.dataCheckbox:checked'),function(index,value) {
+					ids=ids+$(value).val()+",";
+				});
+				if(ids.length>0){
+					$.post("${base}/include/functions/m/deletea.shtml",{'owner':ids},function(data){
+						if(data=='success') {
+							displaySuccessCallback($('#delete-entries'),"回答删除成功！");
+						}
+						
+						location.reload();
+					});
+				} else {
+					alert("请先选择回答！");
+					$('#delete-entries').css('display','none');
+					toggleCoverLayer(false);
+				}
+			});
+		});
+		</script>
+		<style type="text/css">
+		.min-width-70 {
+			min-width: 70px;
+		}
+		</style>
+	</head>
+	<body>
+		<div id="m-condition-section">
+			<form method="get" id="search-form">
+				<table>
+					<tr>
+						<td width="10%">回答人:</td>
+						<td width="40%"><input type="text" name="owner" value="${owner!''}"/></td>
+						<td>提问内容:</td>
+						<td><input type="text" name="qcontent" value="${qcontent!''}"/></td>
+					</tr>
+					<tr>
+						<td>回答内容:</td>
+						<td><input type="text" name="content" value="${content!''}"/></td>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td colspan="2" style="text-align:right;">
+							<input type="submit" class="bg-orange-pic medium-button" id="m-c-submit" value="查找"> 
+							<input type="reset" class="bg-orange-pic medium-button" value="重置">
+						</td>
+						<td></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div id="m-results-section">
+			<#if answers?size &gt; 0>
+				<table>
+					<tr style="height:30px;background-color:#f0f0f0;">
+						<th style="cursor:default;"><input type="checkbox"  class="selectAllCheckbox"></th>
+						<#if (field!"")=="content">
+							<#if (order!"")=="asc">
+								<th class="bg-d-grey ascending" onclick="javascript:location.href='${addParam2URL(curURL,'field=content&order=desc','null&null')}'">回答内容</th>
+							<#else>
+								<th class="bg-d-grey descending" onclick="javascript:location.href='${addParam2URL(curURL,'field=content&order=asc','null&null')}'">回答内容</th>
+							</#if>
+						<#else>
+							<th onclick="javascript:location.href='${addParam2URL(curURL,'field=content&order=asc','null&null')}'">回答内容</th>
+						</#if>
+						<#if (field!"")=="user">
+							<#if (order!"")=="asc">
+								<th class="bg-d-grey ascending min-width-70" onclick="javascript:location.href='${addParam2URL(curURL,'field=user&order=desc','null&null')}'">回答人</th>
+							<#else>
+								<th class="bg-d-grey descending min-width-70" onclick="javascript:location.href='${addParam2URL(curURL,'field=user&order=asc','null&null')}'">回答人</th>
+							</#if>
+						<#else>
+							<th onclick="javascript:location.href='${addParam2URL(curURL,'field=user&order=asc','null&null')}'">回答人</th>
+						</#if>
+						<#if (field!"")=="question">
+							<#if (order!"")=="asc">
+								<th class="bg-d-grey ascending min-width-35" onclick="javascript:location.href='${addParam2URL(curURL,'field=question&order=desc','null&null')}'">提问</th>
+							<#else>
+								<th class="bg-d-grey descending min-width-35" onclick="javascript:location.href='${addParam2URL(curURL,'field=question&order=asc','null&null')}'">提问</th>
+							</#if>
+						<#else>
+							<th onclick="javascript:location.href='${addParam2URL(curURL,'field=question&order=asc','null&null')}'">提问</th>
+						</#if>
+						<#if (field!"")=="level">
+							<#if (order!"")=="asc">
+								<th class="bg-d-grey ascending min-width-70" onclick="javascript:location.href='${addParam2URL(curURL,'field=level&order=desc','null&null')}'">最佳回答</th>
+							<#else>
+								<th class="bg-d-grey descending min-width-70" onclick="javascript:location.href='${addParam2URL(curURL,'field=level&order=asc','null&null')}'">最佳回答</th>
+							</#if>
+						<#else>
+							<th onclick="javascript:location.href='${addParam2URL(curURL,'field=level&order=asc','null&null')}'">最佳回答</th>
+						</#if>
+						<#if (field!"")=="createdAt">
+							<#if (order!"")=="asc">
+								<th class="bg-d-grey ascending min-width-70" onclick="javascript:location.href='${addParam2URL(curURL,'field=createdAt&order=desc','null&null')}'">创建日期</th>
+							<#else>
+								<th class="bg-d-grey descending min-width-70" onclick="javascript:location.href='${addParam2URL(curURL,'field=createdAt&order=asc','null&null')}'">创建日期</th>
+							</#if>
+						<#else>
+							<th onclick="javascript:location.href='${addParam2URL(curURL,'field=createdAt&order=asc','null&null')}'">创建日期</th>
+						</#if>
+						<#if (field!"")=="updatedAt">
+							<#if (order!"")=="asc">
+								<th class="bg-d-grey ascending min-width-70" onclick="javascript:location.href='${addParam2URL(curURL,'field=updatedAt&order=desc','null&null')}'">最后修改</th>
+							<#else>
+								<th class="bg-d-grey descending min-width-70" onclick="javascript:location.href='${addParam2URL(curURL,'field=updatedAt&order=asc','null&null')}'">最后修改</th>
+							</#if>
+						<#else>
+							<th onclick="javascript:location.href='${addParam2URL(curURL,'field=updatedAt&order=asc','null&null')}'">最后修改</th>
+						</#if>
+					</tr>
+					<#assign i=0/>
+					<#list answers as answer>
+						<#assign evenLine>
+							<#assign i=i+1>
+							<#if i%2 ==0>
+								class="bg-l-blue"
+							</#if>
+						</#assign>
+						<tr ${evenLine}>
+							<td><input type="checkbox" class="dataCheckbox" value="${answer.id}" ></td>
+							<td style="padding-left:10px;text-align:left;">
+								<a href="${base}/w/q.shtml?q=${answer.question.id}" target="_blank">
+									<#if answer.content?length &gt; 20>
+										${answer.content?substring(0,20)}...
+									<#else>
+										${answer.content}
+									</#if>
+								</a>
+							</td>
+							<td>
+								<#if (answer.user!"anonymous") == "anonymous">
+									<span>网友</span>
+								<#else>
+									<a href="${base}/uc/index.shtml?u=${answer.user.id}"  target="_blank">${answer.user.nickname}</a>
+								</#if>
+							</td>
+							<td style="padding-left:10px;text-align:left;">
+								<a href="${base}/w/q.shtml?q=${answer.question.id}" target="_blank">
+									<#if answer.question.title?length &gt; 20>
+										${answer.question.title?substring(0,20)}...
+									<#else>
+										${answer.question.title}
+									</#if>
+								</a>
+							</td>
+							<td>
+								<#if answer.level == systemConstants.A_LEVEL_NORMAL>
+									<span>否</span>
+								<#else>
+									<span>是</span>
+								</#if>
+							</td>
+							<td>${answer.createdAt?date}</td>
+							<td>${(answer.updatedAt?date)!(answer.createdAt?date)}</td>
+						</tr>
+					</#list>
+				</table>
+				<div>
+					<input type="checkbox" style="margin: 0 10px;" class="selectAllCheckbox">
+					<input type="button" id="delete-button" value="删除" class="bg-orange-pic small-button action-buttons" disabled="disabled">
+				</div>
+				<@s.action var="answersCount" name="a" namespace="/m" executeResult=false>
+					<@s.param name="max">0</@s.param>
+					<@s.param name="first">0</@s.param>
+				</@s.action>
+				<div class="page-navi-l-section">
+					<@pageNaviSection count=answersCount.answers[0] maxPerPage=systemConstants.MAX_RESULTS_2TEN />
+				</div>
+				<div id="delete-entries" class="float-block" style="display:none;">
+					<div class="float-block-close r" onclick="javascript:$('#delete-entries').css('display','none');toggleCoverLayer(false);"></div>
+					<div class="float-block-title">确认删除</div>
+					<div class="float-block-content center">
+						<div style="padding: 10px 0;">
+							<p style="padding-bottom:14px;">你确定删除该回答吗？</p>
+						</div>
+						<div>
+							<input type="button" id="delete-entries-confirm" class="bg-orange-pic medium-button" value="确定">
+							<input type="button" onclick="javascript:$('#delete-entries').css('display','none');toggleCoverLayer(false);" class="bg-orange-pic medium-button" value="取消">
+						</div>
+					</div>
+				</div>
+				<div id="success-callback" style="display:none;" class="float-block">
+					<div class="float-block-title">更新成功</div>
+					<div class="float-block-content center">
+						<h1 style="margin-top:25px;">更新成功！</h1>
+					</div>
+				</div>
+				<div id="cover-layer" style="display:none;"></div>
+			<#else>
+				<div class="no-such-data">
+					暂时没有符合条件的数据。
+				</div>
+			</#if>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,85 @@
+<#include "../../../template/includeAll.fhtml">
+<script type="text/javascript">
+$('#a-edit-textarea-${answer.id}').TextAreaExpander();
+$('#a-edit-textarea-${answer.id}').keyup(function(e){
+	$('#a-edit-textarea-${answer.id}').css('border','1px solid black');
+	if(e.keyCode==13) {
+		return;
+	}
+	characterLeft(this,$('#a-edit-input-left-${answer.id}'),9999);
+});
+$('#answer-edit-form-${answer.id}').submit(function(){
+	if($('#a-edit-textarea-${answer.id}').val().length==0) {
+		setAnswerError($('#a-edit-input-left-${answer.id}'),$('#a-edit-textarea-${answer.id}'));
+	} else {
+		$.post('${base}/include/functions/u/a.shtml',$(this).serialize(),function(data){
+			if(data=="input") {
+				setAnswerError($('#a-edit-input-left-${answer.id}'),$('#a-edit-textarea-${answer.id}'));						
+			} else {
+				var content=$.trim($(data).children('#answer-content-${answer.id}').html());
+				$('#answer-content-${answer.id}').html(content);
+				$('#a-edit-textarea-${answer.id}').val(content.replace(/<br[\s\/]?>/gi,'\n'));
+				$('#a-edit-section-${answer.id}').toggle("slow");
+			}
+		});
+	}
+	
+	return false;
+});
+</script>
+<div class="answer-wrapper">
+	<div id="answer-content-${answer.id}">
+		${answer.content?replace('\n','<br/>')}
+	</div>
+	<div class="block-footer">
+		<#if answer.question.status != systemConstants.Q_STATUS_CLOSED>
+			<@sec.authorize access="isAuthenticated()">
+				<div class="l">
+					<#if answer.question.status == systemConstants.Q_STATUS_OPEN && ((answer.question.user!answer).equals(authenticatedUser))>
+						<input type="button" name="${answer.id}" value="删除" class="button-big bg-grey-pic a-b-button a-b-delete" onclick="javascript:deleteThisAnswer(this);">
+						<input type="button"  name="${answer.id}" value="采纳为最佳答案" class="button-big bg-grey-pic a-b-button a-b-best" style="display:inline;" onclick="javascript:takeAsBest(this);"/>
+						<div style="display:none;">
+							<input id="a-b-candidate-${answer.id}" type="checkbox" class="a-b-candidate" value="${answer.id}"/>候选
+						</div>
+					</#if>
+					<#if answer.question.status == systemConstants.Q_STATUS_POLL && answer.candidate>
+						<input onclick="javascript:voteThisAnswer(this);" type="button" name="${answer.id}" value="投他一票 (${answer.tickets})" class="button-big bg-grey-pic a-b-button a-b-vote" style="display:inline;"/>
+					</#if>
+					<#if (answer.user!answer).equals(authenticatedUser) && answer.question.status == systemConstants.Q_STATUS_OPEN>
+						<input type="button" name="${answer.id}" value="编辑" class="button-big bg-grey-pic a-b-button a-b-edit" style="display:inline;" onclick="javascript:$('#a-edit-section-${answer.id}').toggle('slow');"/>
+					</#if>
+				</div>
+			</@sec.authorize>
+		</#if>
+		<div class="r">
+			回答者：
+			<#if (answer.user!"anonymous") == "anonymous">
+				热心网友 -
+			<#else>
+				<a href="${base}/uc/index.shtml?u=${answer.user.id}">${(answer.user.nickname)!"热心网友"}</a> -
+			</#if>
+			<span class="bg-light-orange-pic user-level-info">
+			${(answer.user.levelName)!"未知等级"}
+			</span>   ${answer.createdAt?datetime}
+		</div>
+		<div class="clear-both"></div>
+		<#if (answer.user!answer).equals(authenticatedUser) && answer.question.status == systemConstants.Q_STATUS_OPEN>
+			<div id="a-edit-section-${answer.id}" style="display:none;padding:10px 0 0;">
+				<form id="answer-edit-form-${answer.id}">
+					<textarea name="answer.content" rows="5" class="expand70-350 a-edit-textarea" id="a-edit-textarea-${answer.id}">${answer.content}</textarea>
+					<div>
+						<div class="l">
+							<div class="f-grey r" style="display:none;" id="a-edit-input-left-${answer.id}"></div>
+						</div>
+						<div class="r">
+							<input type="submit" value="提交回答" class="button-big bg-grey-pic answer-footer-button" style="margin-left: 40px;font-weight:normal" />
+						</div>
+						<div class="clear-both"></div>
+						<input type="hidden" name="answer.id" value="${answer.id}"/>
+						<input type="hidden" name="answer.question.id" value="${answer.question.id}"/>
+					</div>
+				</form>
+			</div>
+		</#if>
+	</div>
+</div>

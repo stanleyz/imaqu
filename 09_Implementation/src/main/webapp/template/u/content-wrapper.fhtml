@@ -1,0 +1,54 @@
+<div id="outer-framework">
+	<div class="l frame-1-4-l">
+		<div id="avatar">
+			<div id="avatar-name" class="bg-orange">${user.nickname}</div>
+			<div style="text-align:center;">
+				<img style="margin: 15px 0 10px;" src="${base}/include/img/u/default-avatar.jpg" />
+				<div style="border-top: 1px dotted black;margin:5px;padding:10px;">
+					<div class="l">
+					${user.levelName}
+					</div>
+					<div class="r">
+					${user.score}
+					</div>
+					<div class="clear-both"></div>
+				</div>
+			</div>
+		</div>
+		<div id="user-nav">
+			<#if user.equals(authenticatedUser)>
+				<div style="border-bottom: 1px dotted black;">
+					<dl>
+						<dt id="uc-index"><a href="${base}/uc/index.shtml?u=${user.id}">我的麦Q</a></dt>
+						<dd id="uc-q"><a href="${base}/uc/q.shtml?u=${user.id}">我的提问</a></dd>
+						<dd id="uc-a"><a href="${base}/uc/a.shtml?u=${user.id}">我的回答</a></dd>
+					</dl>
+				</div>
+				<div>
+					<dl>
+						<dd id="uc-profile"><a href="${base}/uc/profile.shtml?u=${user.id}">我的设置</a></dd>
+						<dd id="uc-top"><a href="${base}/uc/top.shtml?u=${user.id}">财富排行</a></dd>
+						<dd><a href="${base}/imaqu_security_logout">退出</a></dd>
+					</dl>
+				</div>
+			<#else>
+				<div style="border-bottom: 1px dotted black;">
+					<dl>
+						<dt id="uc-index"><a href="${base}/uc/index.shtml?u=${user.id}">用户信息</a></dt>
+						<dd id="uc-q"><a href="${base}/uc/q.shtml?u=${user.id}">个人提问</a></dd>
+						<dd id="uc-a"><a href="${base}/uc/a.shtml?u=${user.id}">个人回答</a></dd>
+					</dl>
+				</div>
+				<div>
+					<dl>
+						<dd id="uc-top"><a href="${base}/uc/top.shtml?u=${user.id}">财富排行</a></dd>
+					</dl>
+				</div>
+			</#if>
+		</div>
+	</div>
+	<div class="r frame-1-4-r" id="u-content-wrapper">
+		${body}
+	</div>
+	<div class="clear-both"></div>
+</div>

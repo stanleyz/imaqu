@@ -1,0 +1,3 @@
+<#list normalAnswers as answer>
+	<#include "answer-content.fhtml">
+</#list>

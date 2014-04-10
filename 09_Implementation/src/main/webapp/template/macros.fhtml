@@ -1,0 +1,62 @@
+<#macro setShortHintInfo>
+<script type="text/javascript">
+var hintHtml="<ul>";
+<#list errMsg?keys as key>
+	insertHintInfo(false,'','',$(':input[name="${key}"]'));
+	hintHtml += "<li>${errMsg.get(key)}</li>"
+</#list>
+hintHtml += "</ul>";
+$('#hint-info').html(hintHtml);
+</script>
+</#macro>
+
+<#macro setHintInfo>
+<script type="text/javascript">
+<#list errMsg?keys as key>
+	insertHintInfo(false,'','${errMsg.get(key)}',$(':input[name="${key}"]'));
+</#list>
+if($('.hint-sign').length!=0) {
+	$('#hint-info').html("<ul><li><@s.text name='input.err' /></li></ul>");
+}
+</script>
+</#macro>
+
+<#macro humanReadableTime dayTime><#if dayTime?int != 0>${days?int}天</#if><#if days*24 &gt;= 1><#if ((days-days?int)*24)?int != 0>${((days-days?int)*24)?int}小时</#if><#else><#if days*24*60 &gt;= 1>
+${(days*24*60)?int}分钟<#else>${(days*24*60*60)?int}秒</#if></#if></#macro>
+
+<#macro pageNaviSection count maxPerPage>
+<#assign maxPages = (count/maxPerPage)?ceiling />
+<#if maxPages &gt; 1>
+	<#assign curPage = ((first/maxPerPage)?ceiling + 1) />
+	<#assign startPage>
+		<#if (curPage - 4) <=0 >
+			1
+		<#else>
+			${curPage-4}
+		</#if>
+	</#assign>
+	<#assign stopPage>
+		<#if (curPage + 4) &gt; maxPages >
+			${maxPages}
+		<#else>
+			${curPage+4}
+		</#if>
+	</#assign>
+	<#if first &gt; 0>
+		<a href=${addParam2URL(curURL,"first=0","0")}>首页</a>
+		<a href=${addParam2URL(curURL,"first=${(curPage-2)*maxPerPage}","0")}>前一页</a>
+	</#if>
+	<#list startPage?trim?number..stopPage?trim?number as i>
+		<#assign activeClass>
+			<#if curPage == i>
+				class="active"
+			</#if>
+		</#assign>
+		<a ${activeClass} href=${addParam2URL(curURL,"first=${(i-1)*maxPerPage}","0")}>[${i}]</a>
+	</#list>
+	<#if (count - first) &gt; maxPerPage>
+		<a href=${addParam2URL(curURL,"first=${((first/maxPerPage)?floor+1)*maxPerPage}","0")}>后一页</a>
+		<a href=${addParam2URL(curURL,"first=${(maxPages-1)*maxPerPage}","0")}>尾页</a>
+	</#if>
+</#if>
+</#macro>

@@ -1,0 +1,116 @@
+<#include "../template/includeAll.fhtml" />
+<html>
+	<head>
+		<title>${user.nickname} - 个人资料</title>
+		<style type="text/css">
+		#profile-table {
+			margin: 10px 0 0 40px;
+			width:90%;
+		}
+		#profile-table tr {
+			line-height: 30px;
+		}
+		</style>
+		<script type="text/javascript">
+		function checkPassword(obj) {
+			var l=$(obj).val().length;
+			if(l==0)
+				return;
+			insertHintInfo(l>=6 && l<=18,'','密码由6到18位字符和数字组成！',obj);
+		}
+		function checkConfirmPassword(obj) {
+			var password=$(':input[name="user.password"]').val();
+			var confirm=$(obj).val();
+			if(password.length==0 && confirm.length==0) 
+				return;
+			insertHintInfo(confirm.length!=0 && password == confirm,'','两次密码输入不符！',obj);
+		}
+		$(function() {
+			$('#update-form').submit(function(){
+				checkPassword($(':input[name="user.password"]'))
+				checkConfirmPassword($(':input[name="confirmPassword"]'))
+				checkEmail($(':input[name="user.email"]'))
+				if($('.answer-wrong').length!=0) {
+					$('#hint-info').html("<ul><li><@s.text name='input.err' /></li></ul>");
+					$('#hint-info').css('display','block');
+					return false
+				}
+			});
+			$('#uc-profile').addClass('active');
+		});
+		</script>
+	</head>
+	<body>
+		<div class="u-title">
+			<h6 class="bold">个人资料</h6>
+		</div>
+		<div class="u-desc">欢迎新人，这个地方可以随便更改，还没有想好要像你们说什么~~</div>
+		<div>
+			<#assign displayOrNot>
+				<#if recommended!false || errMsg.size()&gt;0>
+					style="display:block;"
+				<#else>
+					style="display:none;"
+				</#if>
+			</#assign>
+			<div id="hint-info" class="hint-info-block" ${displayOrNot}>
+				<ul>
+					<#list errMsg?keys as key>
+						<li>${errMsg.get(key)}</li>
+					</#list>
+					<#if recommended!false>
+						<li>更新成功！</li>
+					</#if>
+				</ul>
+			</div>
+			<form method="post" id="update-form" action="save_info.shtml">
+				<table id="profile-table">
+					<tr>
+						<td width="30%">昵称:</td>
+						<td>${user.nickname}</td>
+					</tr>
+					<tr>
+						<td>性别:</td>
+						<td>
+							<#if user.gender == systemConstants.GENDER_MALE>
+								男
+							<#else>
+								女
+							</#if>
+						</td>
+					</tr>
+					<tr>
+						<td>创建日期:</td>
+						<td>${user.createdAt?date}</td>
+					</tr>
+					<tr>
+						<td>最后登录时间:</td>
+						<td>${(user.lastLogin?date)!"未知"}</td>
+					</tr>
+					<tr>
+						<td>最后登录地址:</td>
+						<td>${user.lastIP}</td>
+					</tr>
+					<tr>
+						<td>邮箱:</td>
+						<td><input type="text" value="${user.email}" name="user.email" onblur="javascript:checkEmail(this);"/></td>
+					</tr>
+					<tr>
+						<td>密码:</td>
+						<td><input type="password" name="user.password" onblur="javascript:checkPassword(this);"/></td>
+					</tr>
+					<tr>
+						<td>确认密码:</td>
+						<td><input type="password" name="confirmPassword" onblur="javascript:checkConfirmPassword(this);"/></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="submit" value="更新" class="bg-orange-pic medium-button" style="margin-top:25px;"/></td>
+					</tr>
+				</table>
+				<input type="hidden" name="user.id" value="${user.id}">
+				<input type="hidden" name="user.nickname" value="${user.nickname}">
+			</form>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/164/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/util/captcha
+END
+CaptchaUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/164/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/util/captcha/CaptchaUtil.java
+END
+SimpleCaptchaServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/139/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/util/captcha/SimpleCaptchaServlet.java
+END
+simplecaptcha.properties
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/130/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/util/captcha/simplecaptcha.properties
+END

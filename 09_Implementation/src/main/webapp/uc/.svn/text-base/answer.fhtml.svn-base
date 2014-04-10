@@ -1,0 +1,96 @@
+<#include "../template/includeAll.fhtml" />
+<html>
+	<head>
+		<title>${user.nickname} - 个人回答</title>
+	</head>
+	<body>
+		<div class="u-title">
+			<h6 class="bold">我的回答</h6>
+		</div>
+		<div class="u-desc">欢迎新人，这个地方可以随便更改，还没有想好要像你们说什么~~</div>
+		<div>
+			<div class="table-content-list-title">
+				<ul class="h-list">
+					<#if (status!999)==999>
+						<li class="active"><a class="active" class="active" href="${addParam2URL(curURL,"status=null&recommended=null","null&null")}">全部回答</a></li>
+					<#else>
+						<li><a href="${addParam2URL(curURL,"status=null","null")}">全部回答</a></li>
+					</#if>
+					<#if (status!999)==systemConstants.A_LEVEL_BEST>
+						<li class="active"><a class="active" href="${addParam2URL(curURL,"status=${systemConstants.A_LEVEL_BEST}","null")}">被采纳的回答</a></li>
+					<#else>
+						<li><a href="${addParam2URL(curURL,"status=${systemConstants.A_LEVEL_BEST}","null")}">被采纳的回答</a></li>
+					</#if>
+				</ul>
+			</div>
+			<#if answers?size &gt; 0>
+				<div class="table-content-wrapper">
+					<table>
+						<tr>
+							<td width="400px" style="padding-left: 10px;">标题</td>
+							<td width="60px" style="text-align: center;">回答数</td>
+							<td width="60px" style="text-align: center;">状态</td>
+							<td width="60px" style="text-align: center;">是否被采纳</td>
+							<td width="150px" style="text-align: center;">提问时间</td>
+						</tr>
+						<#list answers as answer>
+							<tr>
+								<td style="padding-left: 10px;">
+									<#if answer.question.reward &gt; 0>
+										<span class="reward-span q-list-reward">${answer.question.reward}</span>
+									</#if>
+									<a href="${base}/w/q.shtml?q=${answer.question.id}"><span class="q-list-title">
+										<#if answer.question.title?length &gt; 30>
+											${answer.question.title?substring(0,30)}...
+										<#else>
+											${answer.question.title}
+										</#if>
+										</span>
+									</a>
+								</td>
+								<td style="text-align: center;">${answer.question.answersCount}</td>
+								<td style="text-align: center;line-height:0px;">
+									<#if answer.question.status == systemConstants.Q_STATUS_OPEN>
+										<img src="${base}/include/img/q-mark.gif">
+									<#elseif answer.question.status == systemConstants.Q_STATUS_POLL>
+										<img src="${base}/include/img/a-vote.gif">
+									<#elseif answer.question.status == systemConstants.Q_STATUS_CLOSED>
+										<#if answer.question.bestAnswers.size() &gt; 0>
+											<img src="${base}/include/img/g.png">
+										<#else>
+											<img src="${base}/include/img/x-grey.gif">
+										</#if>
+									</#if>
+								</td>
+								<td style="text-align: center;">
+									<#if answer.level == systemConstants.A_LEVEL_BEST>
+										是
+									</#if>
+								</td>
+								<#assign days=(now().getTime()-answer.question.createdAt.getTime())/(3600*1000*24)>
+								<td style="text-align: center;">
+									<#if answer.question.status == systemConstants.Q_STATUS_CLOSED>
+										${answer.question.createdAt?date}
+									<#else>
+										<@humanReadableTime dayTime=days/>前
+									</#if>
+								</td>
+							</tr>
+						</#list>
+					</table>
+				</div>
+				<@s.action var="answersCount" name="a" namespace="/uc" executeResult=false>
+					<@s.param name="max">0</@s.param>
+					<@s.param name="first">0</@s.param>
+				</@s.action>
+				<div class="page-navi-l-section">
+					<@pageNaviSection count=answersCount.answers.get(0) maxPerPage=systemConstants.MAX_RESULTS_2TEN />
+				</div>
+			<#else>
+				<div class="no-such-data">
+					暂时没有符合条件的数据。
+				</div>
+			</#if>
+		</div>
+	</body>
+</html>

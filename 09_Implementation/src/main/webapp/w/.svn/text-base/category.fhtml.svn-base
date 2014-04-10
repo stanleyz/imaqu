@@ -1,0 +1,138 @@
+<#include "../template/includeAll.fhtml" />
+<html>
+	<head>
+		<title>问题列表</title>
+	</head>
+	<body>
+		<div class="outer-wrapper" style="border:none;">
+			<@s.action var="listC" name="list_c" namespace="/w" executeResult=false>
+				<@s.param name="cid">${cid!"0"}</@s.param>
+			</@s.action>
+			<div>
+				<div>
+					<#assign j=1 />
+					<#list listC.ancestorCategories as ac>
+						<#assign j=j+1 />
+						<a href="${addParam2URL(curURL,"cid=${ac.id}","0")}">${ac.name}</a>
+						<#if j <= listC.ancestorCategories.size()>
+							> 
+						</#if>
+					</#list>
+				</div>
+				<div class="block">
+					<div class="block-title bg-pink"><a href="${addParam2URL(curURL,"cid=${listC.category.id}","0")}">${(listC.category.name)!"麦Q分类"}</a></div>
+					<div class="block-content">
+						<div class="b-c-wrapper">
+							<table width="100%">
+								<#assign i=0 />
+								<#list listC.categories as c>
+									<#assign i=i+1 />
+									<#if i%4==1>
+										<tr>
+									</#if>
+									<td width="25%"><a href="${addParam2URL(curURL,"cid=${c.id}","0")}">${c.name}</a></td>
+									<#if i%4==0>
+										</tr>
+									</#if>
+								</#list>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div class="table-content-list-title">
+					<ul class="h-list">
+						<#if (status!999)==systemConstants.Q_STATUS_OPEN && (order!"")?index_of("reward_") < 0 && !(recommended!false)>
+							<li class="active"><a class="active" href="${addParam2URL(curURL,"status=${systemConstants.Q_STATUS_OPEN}&order=createdAt_desc&recommended=null","null&null&null")}">待解决问题</a></li>
+						<#else>
+							<li><a href="${addParam2URL(curURL,"status=${systemConstants.Q_STATUS_OPEN}&order=createdAt_desc&recommended=null","null&null&null")}">待解决问题</a></li>
+						</#if>
+						<#if (status!999)==systemConstants.Q_STATUS_POLL && (order!"")?index_of("reward_") < 0 && !(recommended!false)>
+							<li class="active"><a class="active" href="${addParam2URL(curURL,"status=${systemConstants.Q_STATUS_POLL}&order=createdAt_desc&recommended=null","null&null&null")}">投票中提问</a></li>
+						<#else>
+							<li><a href="${addParam2URL(curURL,"status=${systemConstants.Q_STATUS_POLL}&order=createdAt_desc&recommended=null","null&null&null")}">投票中提问</a></li>
+						</#if>
+						<#if (status!999)==systemConstants.Q_STATUS_CLOSED && (order!"")?index_of("reward_")< 0 && !(recommended!false)>
+							<li class="active"><a class="active" href="${addParam2URL(curURL,"status=${systemConstants.Q_STATUS_CLOSED}&order=createdAt_desc&recommended=null","null&null&null")}">已解决提问</a></li>
+						<#else>
+							<li><a href="${addParam2URL(curURL,"status=${systemConstants.Q_STATUS_CLOSED}&order=createdAt_desc&recommended=null","null&null&null")}">已解决提问</a></li>
+						</#if>
+						<#if (order!"")?index_of("reward_") &gt;= 0 && !(recommended!false)>
+							<li class="active"><a class="active" href="${addParam2URL(curURL,"status=null&order=reward_desc-createdAt_desc&recommended=null","null&null&null")}">高分</a></li>
+						<#else>
+							<li><a href="${addParam2URL(curURL,"status=null&order=reward_desc-createdAt_desc&recommended=null","null&null&null")}">高分</a></li>
+						</#if>
+						<#if recommended!false>
+							<li class="active"><a class="active" href="${addParam2URL(curURL,"status=null&order=createdAt_desc&recommended=true","null&null&null")}">无敌一问</a></li>
+						<#else>
+							<li><a href="${addParam2URL(curURL,"status=null&order=createdAt_desc&recommended=true","null&null&null")}">无敌一问</a></li>
+						</#if>
+					</ul>
+				</div>
+				<#if questions?size &gt; 0>
+					<div class="table-content-wrapper">
+						<table>
+							<tr>
+								<td width="400px" style="padding-left: 10px;">标题</td>
+								<td width="70px" style="text-align: center;">回答数</td>
+								<td width="70px" style="text-align: center;">状态</td>
+								<td width="150px" style="text-align: center;">提问时间</td>
+							</tr>
+							<#list questions as question>
+								<tr>
+									<td style="padding-left: 10px;">
+										<#if question.reward &gt; 0>
+											<span class="reward-span q-list-reward">${question.reward}</span>
+										</#if>
+										<a href="${base}/w/q.shtml?q=${question.id}"><span class="q-list-title">
+											<#if question.title?length &gt; 30>
+												${question.title?substring(0,30)}...
+											<#else>
+												${question.title}
+											</#if>
+											</span>
+										</a>
+									</td>
+									<td style="text-align: center;">${question.answersCount}</td>
+									<td style="text-align: center;line-height:0px;">
+										<#if question.status == systemConstants.Q_STATUS_OPEN>
+											<img src="${base}/include/img/q-mark.gif">
+										<#elseif question.status == systemConstants.Q_STATUS_POLL>
+											<img src="${base}/include/img/a-vote.gif">
+										<#elseif question.status == systemConstants.Q_STATUS_CLOSED>
+											<#if question.bestAnswers.size() &gt; 0>
+												<img src="${base}/include/img/g.png">
+											<#else>
+												<img src="${base}/include/img/x-grey.gif">
+											</#if>
+										</#if>
+									</td>
+									<#assign days=(now().getTime()-question.createdAt.getTime())/(3600*1000*24)>
+									<td style="text-align: center;">
+										<#if question.status == systemConstants.Q_STATUS_CLOSED>
+											${question.createdAt?date}
+										<#else>
+											<@humanReadableTime dayTime=days/>前
+										</#if>
+									</td>
+								</tr>
+							</#list>
+						</table>
+					</div>
+					<@s.action var="questionsCount" name="list_q" namespace="/w" executeResult=false>
+						<@s.param name="max">0</@s.param>
+						<@s.param name="first">0</@s.param>
+					</@s.action>
+					<div class="page-navi-l-section">
+						<@pageNaviSection count=questionsCount.questions.get(0) maxPerPage=systemConstants.MAX_RESULTS_2TEN />
+					</div>
+				<#else>
+					<div class="no-such-data">
+						暂时没有符合条件的数据。
+					</div>
+				</#if>
+			</div>
+		</div>
+	</body>
+</html>

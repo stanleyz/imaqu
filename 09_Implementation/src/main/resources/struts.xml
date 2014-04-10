@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.action.extension" value="shtml" />
+	<constant name="struts.custom.i18n.resources" value="messageResource" />
+	
+	<package name="core-default" abstract="true" extends="struts-default">
+		<interceptors>
+			<interceptor-stack name="commonStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="validation">
+					<param name="validateAnnotatedMethodOnly">true</param>
+					<param name="excludeMethods">input,back,cancel,browse</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="commonStack" />
+		<global-results>
+			<result name="login" type="redirectAction">
+				<param name="actionName">login</param>
+				<param name="namespace">/u</param>
+			</result>
+		</global-results>
+	</package>
+
+	<package name="global" extends="core-default">
+		<action name="locale" class="localeAction" method="setLocale">
+			<result type="redirect">${r}</result>
+		</action>
+		<action name="sleep2js" class="utilAction" method="sleep2JS">
+			<result type="stream">
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+	</package>
+	
+	<include file="struts-u.xml" />
+	<include file="struts-w.xml" />
+	<include file="struts-m.xml" />
+	<include file="struts-json-u.xml" />
+	<include file="struts-json-w.xml" />
+	<include file="struts-snippets.xml" />
+</struts>

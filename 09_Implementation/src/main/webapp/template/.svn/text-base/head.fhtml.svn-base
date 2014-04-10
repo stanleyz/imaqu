@@ -1,0 +1,16 @@
+<#include "includeAll.fhtml">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<meta name="keywords" content="">
+<link rel="shortcut icon" href="${base}/include/img/favicon.ico" />
+<script type="text/javascript" src="${base}/include/scripts/jquery.js"></script>
+<script type="text/javascript" src="${base}/include/scripts/i18n.js"></script>
+<script type="text/javascript" src="${base}/include/scripts/textarea.expander.js"></script>
+<script type="text/javascript" src="${base}/include/scripts/macro.js.fhtml"></script>
+<script type="text/javascript" src="${base}/include/scripts/lang.js"></script>
+<link href="${base}/include/css/main.css" type="text/css" rel="stylesheet">
+<link href="${base}/include/css/w/w.css" type="text/css" rel="stylesheet">
+<script type="text/javascript">
+	$.i18n.setDictionary(i18n_<@s.property value='#request.locale' />);
+</script>
+<title>麦Q | ${title}</title>
+${head}

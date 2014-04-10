@@ -1,0 +1,52 @@
+<div class="frame-3-1-l l">
+	${body}
+</div>
+<div class="frame-3-1-r r">
+	<div class="block">
+		<div class="block-title bg-pink">麦Q分类</div>
+		<div class="block-content">
+			<div class="b-c-wrapper">
+				<@s.action var="categoryPop" name="category_pop" namespace="/include/functions/w" executeResult=false />
+				<ul id="r-b-category-list">
+					<#list categoryPop.categories as category>
+						<#assign activeClass>
+							<#if category.id==(cid!"0")>
+								class="active"
+							</#if>
+						</#assign>
+						<li><a ${activeClass} href="${base}/w/list_q.shtml?order=createdAt_desc&status=${systemConstants.Q_STATUS_OPEN}&cid=${category.id}">${category.name}</a> (${category.questionsCount}条)</li>
+					</#list>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="block">
+		<div class="block-content">
+			<img src="${base}/include/img/w/ad-right.jpg" />
+		</div>
+	</div>
+	<#if cURLBefore?contains("/w/index.shtml")>
+		<div class="block">
+			<div class="block-title bg-pink">麦Ｑ提问帝</div>
+			<div class="block-content">
+				<@s.action var="topAsker" name="top_asker" namespace="/include/functions/w" executeResult=false />
+				<ol class="r-b-list">
+					<#list topAsker.users as user>
+						<li><a href="${base}/uc/index.shtml?u=${user[0]}">${user[1]}</a> <span class="top-user-num">${user[2]}</span></li>
+					</#list>
+				</ol>
+			</div>
+		</div>
+		<div class="block">
+			<div class="block-title bg-pink">麦Ｑ回答帝</div>
+			<div class="block-content">
+				<@s.action var="topReplier" name="top_replier" namespace="/include/functions/w" executeResult=false />
+				<ol class="r-b-list">
+					<#list topReplier.users as user>
+						<li><a href="${base}/uc/index.shtml?u=${user[0]}">${user[1]}</a> <span class="top-user-num">${user[2]}</span></li>
+					</#list>
+				</ol>
+			</div>
+		</div>
+	</#if>
+</div>

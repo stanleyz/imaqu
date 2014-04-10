@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/214/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao
+END
+GenericDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/192/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/GenericDao.java
+END
+CategoryDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/185/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/CategoryDao.java
+END
+UserDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/209/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/UserDao.java
+END
+AnswerDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/214/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/AnswerDao.java
+END
+RoleDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/165/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/RoleDao.java
+END
+QuestionDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/211/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/QuestionDao.java
+END

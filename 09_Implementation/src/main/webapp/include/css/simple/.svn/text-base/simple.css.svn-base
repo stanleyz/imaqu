@@ -1,0 +1,45 @@
+#header-bar {
+	background-color: #FFD4B4;
+	height: 28px;
+	line-height: 28px;
+	padding: 0 20px;
+	margin-bottom: 100px;
+}
+
+#header-bar a {
+	color: #ec1c74;
+	text-decoration: underline;
+}
+
+#simple-content-wrapper {
+	margin: 0 auto;
+	width: 580px;
+	background: url("../../img/err-bg.gif") repeat-x scroll 0 100%
+		transparent;
+	border: 3px solid #FDD4B8;
+}
+
+#back-area {
+	padding: 20px 0 31px 250px;
+}
+
+#back-link {
+	background-color: #FFD4B4;
+	color: #ED1A79;
+	font-size: 16px;
+	font-weight: bold;
+	letter-spacing: 5px;
+	padding: 10px 15px;
+	border: 2px solid #AB9F91;
+}
+
+#back-link:hover {
+	text-decoration: none;
+}
+
+#footer {
+	border: none;
+	margin: 0 auto;
+	width: 580px;
+	padding-top: 30px;
+}

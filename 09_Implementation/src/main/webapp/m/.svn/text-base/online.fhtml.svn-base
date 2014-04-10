@@ -1,0 +1,122 @@
+<#include "../template/includeAll.fhtml" />
+<html>
+	<head>
+		<title>在线用户</title>
+		<script type="text/javascript">
+		$(function(){
+			$('#delete-entries-confirm').click(function(){
+				var ids="";
+				$.each($('#m-results-section input.dataCheckbox:checked'),function(index,value) {
+					ids=ids+$(value).val()+",";
+				});
+				if(ids.length>0){
+					$.post("${base}/include/functions/m/kickuser.shtml",{'name':ids},function(data){
+						if(data=='success') {
+							displaySuccessCallback($('#delete-entries'),"用户踢出成功！");
+						}
+						location.reload();
+					});
+				} else {
+					alert("请先选择用户！");
+					$('#delete-entries').css('display','none');
+					toggleCoverLayer(false);
+				}
+			});
+		});
+		</script>
+		<style type="text/css">
+		</style>
+	</head>
+	<body>
+		<div id="m-condition-section">
+			<form method="get" id="search-form">
+				<table>
+					<tr>
+						<td width="10%">用户名:</td>
+						<td width="40%"><input type="text" name="name" value="${name!''}"/></td>
+						<td width="10%"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td colspan="2" style="text-align:right;">
+							<input type="submit" class="bg-orange-pic medium-button" id="m-c-submit" value="查找"> 
+							<input type="reset" class="bg-orange-pic medium-button" value="重置">
+						</td>
+						<td></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div id="m-results-section">
+			<#if users?size &gt; 0>
+				<table>
+					<tr style="height:30px;background-color:#f0f0f0;">
+						<th style="cursor:default;"><input type="checkbox"  class="selectAllCheckbox"></th>
+						<th style="cursor:default;">用户名</th>
+						<th style="cursor:default;">上次登录</th>
+						<th style="cursor:default;">登录IP</th>
+						<th style="cursor:default;">创建时间</th>
+						<th style="cursor:default;">Email</th>
+						<th style="cursor:default;">系统角色</th>
+					</tr>
+					<#assign i=0/>
+					<#list users as user>
+						<#assign evenLine>
+							<#assign i=i+1>
+							<#if i%2 ==0>
+								class="bg-l-blue"
+							</#if>
+						</#assign>
+						<tr ${evenLine}>
+							<td><input type="checkbox" class="dataCheckbox" value="${user.sessionId}" ></td>
+							<td><a href="${base}/uc/index.shtml?u=${user.principal.user.id}" target="_blank">${user.principal.user.nickname}</a></td>
+							<td>${user.principal.user.lastLogin?date}</td>
+							<td>${user.principal.user.lastIP}</td>
+							<td>${user.principal.user.createdAt?date}</td>
+							<td>${user.principal.user.email}</td>
+							<td>
+								<#if user.principal.user.role.name==systemConstants.ROLE_ADMIN>
+									系统管理员
+								<#elseif user.principal.user.role.name==systemConstants.ROLE_USER>
+									普通用户
+								</#if>
+							</td>
+						</tr>
+					</#list>
+				</table>
+				<div>
+					<input type="checkbox" style="margin: 0 10px;" class="selectAllCheckbox">
+					<input type="button" id="delete-button" value="踢" class="bg-orange-pic small-button action-buttons" disabled="disabled">
+				</div>
+				<div class="page-navi-l-section">
+					<@pageNaviSection count=users?size maxPerPage=systemConstants.MAX_RESULTS_2TEN />
+				</div>
+				<div id="delete-entries" class="float-block" style="display:none;">
+					<div class="float-block-close r" onclick="javascript:$('#delete-entries').css('display','none');toggleCoverLayer(false);"></div>
+					<div class="float-block-title">确认踢</div>
+					<div class="float-block-content center">
+						<div style="padding: 10px 0;">
+							<p style="padding-bottom:14px;font-size:18px;font-weight:bold;">你确定将该用户踢出系统吗?</p>
+						</div>
+						<div>
+							<input type="button" id="delete-entries-confirm" class="bg-orange-pic medium-button" value="确定">
+							<input type="button" onclick="javascript:$('#delete-entries').css('display','none');toggleCoverLayer(false);" class="bg-orange-pic medium-button" value="取消">
+						</div>
+					</div>
+				</div>
+				<div id="success-callback" style="display:none;" class="float-block">
+					<div class="float-block-title">更新成功</div>
+					<div class="float-block-content center">
+						<h1 style="margin-top:25px;">更新成功！</h1>
+					</div>
+				</div>
+				<div id="cover-layer" style="display:none;"></div>
+			<#else>
+				<div class="no-such-data">
+					暂时没有符合条件的数据。
+				</div>
+			</#if>
+		</div>
+	</body>
+</html>

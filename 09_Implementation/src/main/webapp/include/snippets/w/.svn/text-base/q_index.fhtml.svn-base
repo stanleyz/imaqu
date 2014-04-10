@@ -1,0 +1,17 @@
+<#include "../../../template/includeAll.fhtml" />
+<ul class="q-list-wrapper">
+	<#list questions as question>
+		<li>[<a href="${base}/w/list_q.shtml?order=createdAt_desc&status=${systemConstants.Q_STATUS_OPEN}&cid=${question.category.id}"><span class="q-list-category">${question.category.name}</span></a>]
+		<a href="${base}/w/q.shtml?q=${question.id}" target="_blank"><span class="q-list-title">
+			<#if question.title?length &gt; 30>
+				${question.title?substring(0,30)}...
+			<#else>
+				${question.title}
+			</#if>
+		</span></a>
+		<#if question.reward &gt; 0>
+			<span class="reward-span q-list-reward">${question.reward}</span>
+		</#if>
+		<span class="q-list-answers-count">${question.answersCount}回答</span></li>
+	</#list>
+</ul>

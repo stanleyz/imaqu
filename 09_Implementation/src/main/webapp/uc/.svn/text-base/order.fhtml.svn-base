@@ -1,0 +1,114 @@
+<#include "../template/includeAll.fhtml" />
+<html>
+	<head>
+		<title>${user.nickname} - 财富排行</title>
+	</head>
+	<body>
+		<div class="u-title">
+			<h6 class="bold">我的排行</h6>
+		</div>
+		<div class="u-desc">欢迎新人，这个地方可以随便更改，还没有想好要像你们说什么~~</div>
+		<div>
+			<div class="table-content-list-title">
+				<ul class="h-list">
+					<#if (first!0)==systemConstants.USERS_ORDER_Q>
+						<li><a href="${addParam2URL(curURL,"first=${systemConstants.USERS_ORDER_SCORE}","0")}">积分排行</a></li>
+						<li class="active"><a class="active" href="${addParam2URL(curURL,"first=${systemConstants.USERS_ORDER_Q}","0")}">问题排行</a></li>
+						<li><a href="${addParam2URL(curURL,"first=${systemConstants.USERS_ORDER_A}","0")}">回答排行</a></li>
+						
+					<#elseif (first!0)==systemConstants.USERS_ORDER_A>
+						<li><a href="${addParam2URL(curURL,"first=${systemConstants.USERS_ORDER_SCORE}","0")}">积分排行</a></li>
+						<li><a href="${addParam2URL(curURL,"first=${systemConstants.USERS_ORDER_Q}","0")}">问题排行</a></li>
+						<li class="active"><a class="active" href="${addParam2URL(curURL,"first=${systemConstants.USERS_ORDER_A}","0")}">回答排行</a></li>
+					<#else>
+						<li class="active"><a class="active" class="active" href="${addParam2URL(curURL,"first=${systemConstants.USERS_ORDER_SCORE}","0")}">积分排行</a></li>
+						<li><a href="${addParam2URL(curURL,"first=${systemConstants.USERS_ORDER_Q}","0")}">问题排行</a></li>
+						<li><a href="${addParam2URL(curURL,"first=${systemConstants.USERS_ORDER_A}","0")}">回答排行</a></li>
+					</#if>
+				</ul>
+			</div>
+			<div class="table-content-wrapper">
+				<table style="margin-bottom:65px;">
+					<tr>
+						<td width="20px" style="padding-left: 10px;">名次</td>
+						<td width="140px" style="text-align: center;">昵称</td>
+						<td width="50px" style="text-align: center;">
+							<#if first=systemConstants.USERS_ORDER_Q>
+								问题数
+							<#elseif first=systemConstants.USERS_ORDER_A>
+								回答数
+							<#else>
+								积分
+							</#if>
+						</td>
+						<td width="60px" style="text-align: center;">注册时间</td>
+						<td width="60px" style="text-align: center;">最后登录</td>
+					</tr>
+					<#assign i=0 />
+					<#assign q=-1,a=-1,s=-1 />
+					<#assign included=false />
+					<#assign activeClass="" />
+					<#list users as u>
+						<#if u.equals(user)>
+							<#assign activeClass='style="color:#f00;font-weight:bold;"' />
+							<#assign included=true />
+						<#else>
+							<#assign activeClass="" />
+						</#if>
+						<tr ${activeClass!""}>
+							<#if first=systemConstants.USERS_ORDER_Q>
+								<#if u.questionsCount != q>
+									<#assign q=u.questionsCount />
+									<#assign i=i+1 />
+								</#if>
+								<td style="padding-left: 15px;">${i}</td>
+								<td style="text-align: center;"><a ${activeClass!""} href="${base}/uc/index.shtml?u=${u.id}">${u.nickname}</a></td>
+								<td style="text-align: center;line-height:0px;">${u.questionsCount}</td>
+							<#elseif first=systemConstants.USERS_ORDER_A>
+								<#if u.answersCount != a>
+									<#assign a=u.answersCount />
+									<#assign i=i+1 />
+								</#if>
+								<td style="padding-left: 15px;">${i}</td>
+								<td style="text-align: center;"><a ${activeClass!""} href="${base}/uc/index.shtml?u=${u.id}">${u.nickname}</a></td>
+								<td style="text-align: center;line-height:0px;">${u.answersCount}</td>
+							<#else>
+								<#if u.score != s>
+									<#assign s=u.score />
+									<#assign i=i+1 />
+								</#if>
+								<td style="padding-left: 15px;">${i}</td>
+								<td style="text-align: center;"><a ${activeClass!""} href="${base}/uc/index.shtml?u=${u.id}">${u.nickname}</a></td>
+								<td style="text-align: center;line-height:0px;">${u.score}</td>
+							</#if>
+							<td style="text-align: center;">${u.createdAt?date}</td>
+							<td style="text-align: center;">${u.lastLogin?date}</td>
+						</tr>
+					</#list>
+					<#if max &gt; i+1>
+						<tr>
+							<td style="text-align:center; font-weight:bold;color:#0ff;font-size:15px;" colspan="5">... ...</td>
+						</tr>
+					</#if>
+					<#if max &gt;= i && !included>
+						<tr style="color:#f00;font-weight:bold;">
+							<td style="padding-left: 15px;">${max}</td>
+							<td  style="text-align: center;"><a style="color:#f00;" href="${base}/uc/index.shtml?u=${user.id}">${user.nickname}</a></td>
+							<td style="text-align: center;line-height:0px;">
+								<#if first=systemConstants.USERS_ORDER_Q>
+									${user.questionsCount}
+								<#elseif first=systemConstants.USERS_ORDER_A>
+									${user.answersCount}
+								<#else>
+									${user.score}
+								</#if>
+							</td>
+							<td style="text-align: center;">${user.createdAt?date}</td>
+							<td style="text-align: center;">${user.lastLogin?date}</td>
+						</tr>
+					</#if>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/214/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/hibernate
+END
+GenericDaoHibernate.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/192/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/hibernate/GenericDaoHibernate.java
+END
+CategoryDaoHibernate.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/197/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/hibernate/CategoryDaoHibernate.java
+END
+UserDaoHibernate.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/211/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/hibernate/UserDaoHibernate.java
+END
+AnswerDaoHibernate.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/214/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/hibernate/AnswerDaoHibernate.java
+END
+RoleDaoHibernate.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/176/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/hibernate/RoleDaoHibernate.java
+END
+QuestionDaoHibernate.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/213/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/dao/hibernate/QuestionDaoHibernate.java
+END

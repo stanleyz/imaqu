@@ -1,0 +1,18 @@
+<div id="header">
+	<#assign locale>
+		<@s.property value='#request.locale' />
+	</#assign>
+	<#global cURLBefore>
+		<@s.url includeContext="false" includeParams="all" />
+	</#global>
+	<div id="language" class="r">
+		<a class="<#if locale=='zh_CN'>active</#if>" href='${base}/locale.shtml?lang=zh_CN&r=${cURLBefore?url("UTF-8")}'>简体中文</a>
+		<a class="<#if locale=='zh_TW'>active</#if>" href='${base}/locale.shtml?lang=zh_TW&r=${cURLBefore?url("UTF-8")}'>繁體中文</a>
+		<a class="<#if locale=='en' || locale=='en_US'>active</#if>" href='${base}/locale.shtml?lang=en&r=${cURLBefore?url("UTF-8")}' style="margin-left:13px">English</a>
+	</div>
+	<div id="logo-slogan">
+		<a href="${base}/">
+			<img src="${base}/include/img/logo-slogan.png" alt="Logo" />
+		</a>
+	</div>
+</div>

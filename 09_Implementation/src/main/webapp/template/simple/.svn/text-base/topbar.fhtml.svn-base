@@ -1,0 +1,10 @@
+<div id="header-bar">
+	<div class="l">
+		<a href="${base}/">麦Q首页</a>
+		<a href="${base}/uc/index.shtml">个人中心</a>
+	</div>
+	<div class="r">
+		<a href="${base}/u/login.shtml">登录</a>
+		<a href="${base}/u/signup_input.shtml">注册</a>
+	</div>
+</div>

@@ -1,0 +1,14 @@
+<#assign activeId>
+	<#assign currURL>
+		<@s.url include includeParams="none"/>
+	</#assign>
+	<#assign currURL=currURL?replace("${base}","")?substring(1) />
+	<#assign i=currURL?last_index_of('.shtml') />
+	#${currURL?replace("/","-","f")?substring(0,i)}
+</#assign>
+<script type="text/javascript">
+$(function(){
+	$("${activeId?trim}").addClass('active');
+});
+</script>
+<link type="text/css" rel="stylesheet" href="${base}/include/css/u/ucenter.css" />

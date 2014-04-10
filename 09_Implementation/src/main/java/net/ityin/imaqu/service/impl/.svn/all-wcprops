@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/217/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/service/impl
+END
+QuestionManagerImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/214/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/service/impl/QuestionManagerImpl.java
+END
+GenericManagerImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/157/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/service/impl/GenericManagerImpl.java
+END
+CategoryManagerImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/199/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/service/impl/CategoryManagerImpl.java
+END
+UserManagerImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/211/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/service/impl/UserManagerImpl.java
+END
+AnswerManagerImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/217/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/service/impl/AnswerManagerImpl.java
+END
+RoleManagerImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/165/imaqu/09_Implementation/src/main/java/net/ityin/imaqu/service/impl/RoleManagerImpl.java
+END

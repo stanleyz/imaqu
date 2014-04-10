@@ -1,0 +1,26 @@
+<#assign userScore>
+	<@sec.authentication property="principal.user.score" />
+</#assign>
+<select name="question.reward">
+	<option>0</option>
+	<#if userScore?number &gt; 4>
+		<option>5</option>
+	<#else>
+		<option value="0">你积分不够</option>
+	</#if>
+	<#if userScore?number &gt; 9>
+		<option>10</option>
+	</#if>
+	<#if userScore?number &gt; 19>
+		<option>20</option>
+	</#if>
+	<#if userScore?number &gt; 29>
+		<option>30</option>
+	</#if>
+	<#if userScore?number &gt; 49>
+		<option>50</option>
+	</#if>
+	<#if userScore?number &gt; 99>
+		<option>100</option>
+	</#if>
+</select>

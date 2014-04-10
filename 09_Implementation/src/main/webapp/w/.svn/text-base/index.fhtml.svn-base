@@ -1,0 +1,97 @@
+<#include "../template/includeAll.fhtml">
+<html>
+	<head>
+		<title>首页</title>
+		<style type="text/css">
+		.q-list-category {
+			font-weight: bold;
+			padding: 0 2px;
+			font-size: 13px;
+			color: #1c43b4;
+		}
+		.q-list-title {
+			padding: 0 8px;
+			font-size: 13px;
+			color: #1c43b4;
+		}
+		.q-list-reward {
+			padding: 3px 10px 3px 16px;
+		}
+		.q-list-answers-count {
+		}
+		.q-list-section h6 {
+			padding: 6px 0;
+		}
+		.q-list-wrapper {
+			padding-left: 20px;
+		}
+		.q-list-wrapper li {
+			height: 17px;
+			line-height: 17px;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="block">
+			<div class="block-title bg-orange">无敌一问</div>
+			<div class="block-content">
+				<div class="b-c-wrapper" style="padding-left: 10px;">
+					<@s.action name="getQ" namespace="/include/functions/w" executeResult=true>
+						<@s.param name="recommended">true</@s.param>
+						<@s.param name="order">createdAt_desc</@s.param>
+						<@s.param name="max">5</@s.param>
+					</@s.action>
+				</div>
+			</div>
+		</div>
+		<div class="block">
+			<div class="block-title bg-orange">麦Q问题集锦</div>
+			<div class="block-content">
+				<div class="b-c-wrapper" style="padding-left: 10px;">
+					<div class="q-list-section" style="border-bottom: 2px solid #000;padding-bottom:3px;">
+						<h6>高分问题</h6>
+						<@s.action name="getQ" namespace="/include/functions/w" executeResult=true>
+							<@s.param name="order">reward_desc-createdAt_desc</@s.param>
+							<@s.param name="max">5</@s.param>
+						</@s.action>
+					</div>
+					<div class="q-list-section">
+						<h6>待解决问题</h6>
+						<@s.action name="getQ" namespace="/include/functions/w" executeResult=true>
+							<@s.param name="order">createdAt_desc</@s.param>
+							<@s.param name="status">${systemConstants.Q_STATUS_OPEN}</@s.param>
+							<@s.param name="max">10</@s.param>
+						</@s.action>
+					</div>
+					<@s.action var="votingQCount" name="getQ" namespace="/include/functions/w" executeResult=false>
+						<@s.param name="order">createdAt_desc</@s.param>
+						<@s.param name="status">${systemConstants.Q_STATUS_POLL}</@s.param>
+						<@s.param name="max">0</@s.param>
+					</@s.action>
+					<#if votingQCount.questions[0] &gt; 0>
+						<div class="q-list-section" style="border-top: 2px solid black;margin-top: 3px;">
+							<h6>投票中的问题</h6>
+							<@s.action name="getQ" namespace="/include/functions/w" executeResult=true>
+								<@s.param name="order">createdAt_desc</@s.param>
+								<@s.param name="status">${systemConstants.Q_STATUS_POLL}</@s.param>
+								<@s.param name="max">5</@s.param>
+							</@s.action>
+						</div>
+					</#if>
+				</div>
+			</div>
+		</div>
+		<div class="block">
+			<div class="block-title bg-orange">已解决的问题</div>
+			<div class="block-content">
+				<div class="b-c-wrapper" style="padding-left: 10px;">
+					<@s.action name="getQ" namespace="/include/functions/w" executeResult=true>
+						<@s.param name="order">createdAt_desc</@s.param>
+						<@s.param name="status">${systemConstants.Q_STATUS_CLOSED}</@s.param>
+						<@s.param name="max">5</@s.param>
+					</@s.action>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
