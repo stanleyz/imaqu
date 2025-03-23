@@ -1,2 +1,0 @@
-<div class="bold" style="padding: 16px 0 6px;">问题补充</div>
-<div>${question.supplyment?replace('\n','<br/>')}</div>

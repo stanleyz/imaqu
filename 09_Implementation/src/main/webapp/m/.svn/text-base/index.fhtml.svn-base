@@ -1,9 +1,0 @@
-<#include "../template/includeAll.fhtml" />
-<html>
-	<head>
-		<title>系统管理</title>
-	</head>
-	<body>
-		<div style="padding-top:180px;font-size:50px;font-weight:bold;text-align:center;">欢迎进入麦Q后台管理中心</div>
-	</body>
-</html>

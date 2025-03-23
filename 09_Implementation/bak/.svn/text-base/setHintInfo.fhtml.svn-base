@@ -1,9 +1,0 @@
-<script type="text/javascript">
-var hintHtml="<ul>";
-<#list errMsg?keys as key>
-	$('<span class="hint-sign v-align"><img src="${base}/include/img/x.png" /></span>').insertAfter($(':input[name="${key}"]'));
-	hintHtml += "<li>${errMsg.get(key)}</li>"
-</#list>
-hintHtml += "</ul>";
-$('#hint-info').html(hintHtml);
-</script>
